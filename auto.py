@@ -12,8 +12,8 @@ from selenium import webdriver
 
 # Webpage login settings
 url = "https://npl.bivekthapa.com.np/index.php/login/?redirect_to=https%3A%2F%2Fnpl.bivekthapa.com.np%2F"
-username = "test"
-password = "Okokgood123"
+username = "id"
+password = "pass"
 
 # Connect to WiFi
 # wifi = pywifi.PyWiFi()
