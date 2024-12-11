@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
 url = "https://npl.bivekthapa.com.np/index.php/login"
-username = "ID"
+username = "username"
 password = "pass"
 
 driver = webdriver.Edge()

@@ -1,51 +1,48 @@
-import time
-from selenium import webdriver
-# from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-# import pywifi
+from time import sleep
+import pywifi
+from pywifi import const
 
-# WiFi connection settings
-# wifi_name = "Bivek's iPhone"
-# wifi_password = "okgood12"
-
-# Webpage login settings
-url = "https://npl.bivekthapa.com.np/index.php/login/?redirect_to=https%3A%2F%2Fnpl.bivekthapa.com.np%2F"
-username = "test"
-password = "Okokgood123"
-
-# Connect to WiFi
-# wifi = pywifi.PyWiFi()
-# interface = wifi.interfaces()[0]
-# interface.connect(wifi_name, wifi_password)
+# Initialize WiFi Interface
+wifi = pywifi.PyWiFi()
+iface = wifi.interfaces()[0]
 
 
-# Open webpage and login
-driver = webdriver.Edge()
-driver.get(url)
+# Setup WiFi profile
+profile = pywifi.Profile()
+profile.ssid = "STWCU_LR-12"
+profile.key = ""
+profile.auth = const.AUTH_ALG_OPEN
+profile.akm.append(const.AKM_TYPE_NONE)
+profile.cipher = const.CIPHER_TYPE_CCMP
 
-driver.find_element(by="id", value="username-51").send_keys(username)
-driver.find_element(by="id", value="user_password-51").send_keys(password)
+# Turn WiFi off
+iface.disconnect()
+sleep(1)
+assert iface.status() in [const.IFACE_DISCONNECTED, const.IFACE_INACTIVE]
+print("WiFi turned off.")
 
-# time.sleep(15)
-# driver.find_element_by_name('username-51').send_keys(username)
-# driver.find_element_by_name('user_password-51').send_keys(password)
-# driver.find_element_by_css_selector("input[type=submit].um-button").click()
+# Turn WiFi on
+iface.connect(profile)
+sleep(1)
+print("WiFi turned on.")
 
-print("run successfully")
+# Disconnect from Current WiFi
+iface.disconnect()
+sleep(1)
+assert iface.status() in [const.IFACE_DISCONNECTED, const.IFACE_INACTIVE]
 
-# username_input = WebDriverWait(driver, 10).until(
-#     EC.presence_of_element_located((By.NAME, "username"))
-# )
-# username_input.send_keys(username)
+# Add the profile to your WiFi interface
+iface.remove_network_profile(profile)
+iface.add_network_profile(profile)
 
-# password_input = WebDriverWait(driver, 10).until(
-#     EC.presence_of_element_located((By.NAME, "password"))
-# )
-# password_input.send_keys(password)
+# Connect to the Network
+iface.connect(profile)
+sleep(30)  # Increase sleep time to give more time for connection
 
-# login_button = WebDriverWait(driver, 10).until(
-#     EC.presence_of_element_located((By.NAME, "login"))
-# )
-# login_button.click()
+# Verify Connection
+status = iface.status()
+print(f"WiFi Status: {status}")
+if status == const.IFACE_CONNECTED:
+    print("Connected to the network.")
+else:
+    print("Failed to connect.")
