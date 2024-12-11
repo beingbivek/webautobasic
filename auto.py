@@ -2,9 +2,25 @@ from time import sleep
 import pywifi
 from pywifi import const
 
+<<<<<<< HEAD
 # Initialize WiFi Interface
 wifi = pywifi.PyWiFi()
 iface = wifi.interfaces()[0]
+=======
+# WiFi connection settings
+# wifi_name = "Bivek's iPhone"
+# wifi_password = "okgood12"
+
+# Webpage login settings
+url = "https://npl.bivekthapa.com.np/index.php/login/?redirect_to=https%3A%2F%2Fnpl.bivekthapa.com.np%2F"
+username = "id"
+password = "pass"
+
+# Connect to WiFi
+# wifi = pywifi.PyWiFi()
+# interface = wifi.interfaces()[0]
+# interface.connect(wifi_name, wifi_password)
+>>>>>>> 7bcaa1f4026e73b997fc913ee739e00eba584e3c
 
 
 # Setup WiFi profile
